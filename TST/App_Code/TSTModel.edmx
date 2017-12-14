@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TSTModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="TSTModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="TSTModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TSTDepartments" EntityType="TSTModel.Store.TSTDepartments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TSTEmployees" EntityType="TSTModel.Store.TSTEmployees" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TSTRequests" EntityType="TSTModel.Store.TSTRequests" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TSTRequestStatuses" EntityType="TSTModel.Store.TSTRequestStatuses" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_TSTEmployees_TSTDepartments" Association="TSTModel.Store.FK_TSTEmployees_TSTDepartments">
+            <End Role="TSTDepartments" EntitySet="TSTDepartments" />
+            <End Role="TSTEmployees" EntitySet="TSTEmployees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTRequests_TSTEmployees" Association="TSTModel.Store.FK_TSTRequests_TSTEmployees">
+            <End Role="TSTEmployees" EntitySet="TSTEmployees" />
+            <End Role="TSTRequests" EntitySet="TSTRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTRequests_TSTEmployees1" Association="TSTModel.Store.FK_TSTRequests_TSTEmployees1">
+            <End Role="TSTEmployees" EntitySet="TSTEmployees" />
+            <End Role="TSTRequests" EntitySet="TSTRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTRequests_TSTRequestStatuses" Association="TSTModel.Store.FK_TSTRequests_TSTRequestStatuses">
+            <End Role="TSTRequestStatuses" EntitySet="TSTRequestStatuses" />
+            <End Role="TSTRequests" EntitySet="TSTRequests" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TSTDepartments">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DepartmentDescription" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="TSTEmployees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="FName" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="LName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="24" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="HireDate" Type="datetime" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="EmpDepartmentID" Type="int" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmployeeImage" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="TSTRequests">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RequestDate" Type="datetime" Nullable="false" />
+          <Property Name="ClosedDate" Type="datetime" />
+          <Property Name="RequesterNotes" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TechNotes" Type="nvarchar(max)" />
+          <Property Name="RequestStatusID" Type="int" Nullable="false" />
+          <Property Name="RequesterID" Type="int" Nullable="false" />
+          <Property Name="TechID" Type="int" />
+        </EntityType>
+        <EntityType Name="TSTRequestStatuses">
+          <Key>
+            <PropertyRef Name="RequestStatusID" />
+          </Key>
+          <Property Name="RequestStatusID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RequestStatusDescription" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="RequestStatusNotes" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <Association Name="FK_TSTEmployees_TSTDepartments">
+          <End Role="TSTDepartments" Type="TSTModel.Store.TSTDepartments" Multiplicity="1" />
+          <End Role="TSTEmployees" Type="TSTModel.Store.TSTEmployees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTDepartments">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="TSTEmployees">
+              <PropertyRef Name="EmpDepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTRequests_TSTEmployees">
+          <End Role="TSTEmployees" Type="TSTModel.Store.TSTEmployees" Multiplicity="1" />
+          <End Role="TSTRequests" Type="TSTModel.Store.TSTRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTEmployees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="TSTRequests">
+              <PropertyRef Name="RequesterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTRequests_TSTEmployees1">
+          <End Role="TSTEmployees" Type="TSTModel.Store.TSTEmployees" Multiplicity="0..1" />
+          <End Role="TSTRequests" Type="TSTModel.Store.TSTRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTEmployees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="TSTRequests">
+              <PropertyRef Name="TechID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTRequests_TSTRequestStatuses">
+          <End Role="TSTRequestStatuses" Type="TSTModel.Store.TSTRequestStatuses" Multiplicity="1" />
+          <End Role="TSTRequests" Type="TSTModel.Store.TSTRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTRequestStatuses">
+              <PropertyRef Name="RequestStatusID" />
+            </Principal>
+            <Dependent Role="TSTRequests">
+              <PropertyRef Name="RequestStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TSTModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TSTEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="TSTModel.sysdiagram" />
+          <EntitySet Name="TSTDepartments" EntityType="TSTModel.TSTDepartment" />
+          <EntitySet Name="TSTEmployees" EntityType="TSTModel.TSTEmployee" />
+          <EntitySet Name="TSTRequests" EntityType="TSTModel.TSTRequest" />
+          <EntitySet Name="TSTRequestStatuses" EntityType="TSTModel.TSTRequestStatus" />
+          <AssociationSet Name="FK_TSTEmployees_TSTDepartments" Association="TSTModel.FK_TSTEmployees_TSTDepartments">
+            <End Role="TSTDepartments" EntitySet="TSTDepartments" />
+            <End Role="TSTEmployees" EntitySet="TSTEmployees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTRequests_TSTEmployees" Association="TSTModel.FK_TSTRequests_TSTEmployees">
+            <End Role="TSTEmployees" EntitySet="TSTEmployees" />
+            <End Role="TSTRequests" EntitySet="TSTRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTRequests_TSTEmployees1" Association="TSTModel.FK_TSTRequests_TSTEmployees1">
+            <End Role="TSTEmployees" EntitySet="TSTEmployees" />
+            <End Role="TSTRequests" EntitySet="TSTRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSTRequests_TSTRequestStatuses" Association="TSTModel.FK_TSTRequests_TSTRequestStatuses">
+            <End Role="TSTRequestStatuses" EntitySet="TSTRequestStatuses" />
+            <End Role="TSTRequests" EntitySet="TSTRequests" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TSTDepartment">
+          <Key>
+            <PropertyRef Name="DepartmentID" />
+          </Key>
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="DepartmentDescription" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="TSTEmployees" Relationship="TSTModel.FK_TSTEmployees_TSTDepartments" FromRole="TSTDepartments" ToRole="TSTEmployees" />
+        </EntityType>
+        <EntityType Name="TSTEmployee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="FName" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Name="LName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Phone" Type="String" MaxLength="24" Unicode="true" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="HireDate" Type="DateTime" Precision="3" />
+          <Property Name="Notes" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="EmpDepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="EmployeeImage" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="TSTDepartment" Relationship="TSTModel.FK_TSTEmployees_TSTDepartments" FromRole="TSTEmployees" ToRole="TSTDepartments" />
+          <NavigationProperty Name="TSTRequests" Relationship="TSTModel.FK_TSTRequests_TSTEmployees" FromRole="TSTEmployees" ToRole="TSTRequests" />
+          <NavigationProperty Name="TSTRequests1" Relationship="TSTModel.FK_TSTRequests_TSTEmployees1" FromRole="TSTEmployees" ToRole="TSTRequests" />
+        </EntityType>
+        <EntityType Name="TSTRequest">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ClosedDate" Type="DateTime" Precision="3" />
+          <Property Name="RequesterNotes" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="TechNotes" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="RequestStatusID" Type="Int32" Nullable="false" />
+          <Property Name="RequesterID" Type="Int32" Nullable="false" />
+          <Property Name="TechID" Type="Int32" />
+          <NavigationProperty Name="TSTEmployee" Relationship="TSTModel.FK_TSTRequests_TSTEmployees" FromRole="TSTRequests" ToRole="TSTEmployees" />
+          <NavigationProperty Name="TSTEmployee1" Relationship="TSTModel.FK_TSTRequests_TSTEmployees1" FromRole="TSTRequests" ToRole="TSTEmployees" />
+          <NavigationProperty Name="TSTRequestStatus" Relationship="TSTModel.FK_TSTRequests_TSTRequestStatuses" FromRole="TSTRequests" ToRole="TSTRequestStatuses" />
+        </EntityType>
+        <EntityType Name="TSTRequestStatus">
+          <Key>
+            <PropertyRef Name="RequestStatusID" />
+          </Key>
+          <Property Name="RequestStatusID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestStatusDescription" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="RequestStatusNotes" Type="String" MaxLength="250" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="TSTRequests" Relationship="TSTModel.FK_TSTRequests_TSTRequestStatuses" FromRole="TSTRequestStatuses" ToRole="TSTRequests" />
+        </EntityType>
+        <Association Name="FK_TSTEmployees_TSTDepartments">
+          <End Role="TSTDepartments" Type="TSTModel.TSTDepartment" Multiplicity="1" />
+          <End Role="TSTEmployees" Type="TSTModel.TSTEmployee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTDepartments">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="TSTEmployees">
+              <PropertyRef Name="EmpDepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTRequests_TSTEmployees">
+          <End Role="TSTEmployees" Type="TSTModel.TSTEmployee" Multiplicity="1" />
+          <End Role="TSTRequests" Type="TSTModel.TSTRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTEmployees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="TSTRequests">
+              <PropertyRef Name="RequesterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTRequests_TSTEmployees1">
+          <End Role="TSTEmployees" Type="TSTModel.TSTEmployee" Multiplicity="0..1" />
+          <End Role="TSTRequests" Type="TSTModel.TSTRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTEmployees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="TSTRequests">
+              <PropertyRef Name="TechID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSTRequests_TSTRequestStatuses">
+          <End Role="TSTRequestStatuses" Type="TSTModel.TSTRequestStatus" Multiplicity="1" />
+          <End Role="TSTRequests" Type="TSTModel.TSTRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSTRequestStatuses">
+              <PropertyRef Name="RequestStatusID" />
+            </Principal>
+            <Dependent Role="TSTRequests">
+              <PropertyRef Name="RequestStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TSTModelStoreContainer" CdmEntityContainer="TSTEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TSTModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTDepartments">
+            <EntityTypeMapping TypeName="TSTModel.TSTDepartment">
+              <MappingFragment StoreEntitySet="TSTDepartments">
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="DepartmentDescription" ColumnName="DepartmentDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTEmployees">
+            <EntityTypeMapping TypeName="TSTModel.TSTEmployee">
+              <MappingFragment StoreEntitySet="TSTEmployees">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EmpDepartmentID" ColumnName="EmpDepartmentID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="EmployeeImage" ColumnName="EmployeeImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTRequests">
+            <EntityTypeMapping TypeName="TSTModel.TSTRequest">
+              <MappingFragment StoreEntitySet="TSTRequests">
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="ClosedDate" ColumnName="ClosedDate" />
+                <ScalarProperty Name="RequesterNotes" ColumnName="RequesterNotes" />
+                <ScalarProperty Name="TechNotes" ColumnName="TechNotes" />
+                <ScalarProperty Name="RequestStatusID" ColumnName="RequestStatusID" />
+                <ScalarProperty Name="RequesterID" ColumnName="RequesterID" />
+                <ScalarProperty Name="TechID" ColumnName="TechID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TSTRequestStatuses">
+            <EntityTypeMapping TypeName="TSTModel.TSTRequestStatus">
+              <MappingFragment StoreEntitySet="TSTRequestStatuses">
+                <ScalarProperty Name="RequestStatusID" ColumnName="RequestStatusID" />
+                <ScalarProperty Name="RequestStatusDescription" ColumnName="RequestStatusDescription" />
+                <ScalarProperty Name="RequestStatusNotes" ColumnName="RequestStatusNotes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

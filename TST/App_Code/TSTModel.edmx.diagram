@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="86df0a5457994d8eae2b5523474650db" Name="Diagram1">
+        <EntityTypeShape EntityType="TSTModel.sysdiagram" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTDepartment" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTEmployee" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTRequest" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TSTModel.TSTRequestStatus" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <AssociationConnector Association="TSTModel.FK_TSTEmployees_TSTDepartments" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTRequests_TSTEmployees" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTRequests_TSTEmployees1" ManuallyRouted="false" />
+        <AssociationConnector Association="TSTModel.FK_TSTRequests_TSTRequestStatuses" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
